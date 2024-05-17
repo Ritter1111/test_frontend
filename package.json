@@ -2,6 +2,7 @@
   "name": "test_frontend",
   "private": true,
   "version": "0.0.0",
+  "proxy": "http://68.183.74.14:4005",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -13,10 +13,16 @@ import { formFieldsDefault } from '../../../utils/const';
 import { validationPasswordEmail } from '../../../utils/Validate_Schemas';
 import { ILoginData } from '../../../types/types';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../store/slices/Auth.slice';
+import { AppDispatch } from '../../../store/store';
 
 export default function LogIn() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleSubmit = (values: ILoginData) => {
     console.log(values);
+    dispatch(login(values));
   };
 
   return (

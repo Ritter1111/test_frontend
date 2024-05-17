@@ -13,10 +13,16 @@ import { formSignUpFieldsDefault } from '../../../utils/const';
 import { ISignupData } from '../../../types/types';
 import { validationSignIn } from '../../../utils/Validate_Schemas';
 import { Link } from 'react-router-dom';
+import { AppDispatch } from '../../../store/store';
+import { useDispatch } from 'react-redux';
+import { register } from '../../../store/slices/Auth.slice';
 
 export default function SignUp() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleSubmit = (values: ISignupData) => {
     console.log(values);
+    dispatch(register(values));
   };
 
   return (
