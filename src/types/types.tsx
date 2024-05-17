@@ -16,8 +16,16 @@ export interface IAuthData {
 }
 
 export interface ICreateEmailData {
+  id?: number;
   sender: number;
   recipient: string;
   subject: string;
   message: string;
+}
+
+export interface IEmailsData {
+  count: number;
+  next: string;
+  previous: string;
+  results: ICreateEmailData[];
 }

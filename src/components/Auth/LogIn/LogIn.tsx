@@ -14,9 +14,9 @@ import { validationPasswordEmail } from '../../../utils/Validate_Schemas';
 import { ILoginData } from '../../../types/types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../../../store/slices/Auth.slice';
 import { AppDispatch } from '../../../store/store';
 import { setCreds } from '../../../utils/localStorage';
+import { login } from '../../../store/api/api';
 
 export default function LogIn() {
   const dispatch = useDispatch<AppDispatch>();

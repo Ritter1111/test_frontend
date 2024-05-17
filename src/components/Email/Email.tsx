@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import EmailModal from './EmailModal.tsx/EmailModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { login } from '../../store/slices/Auth.slice';
 import { getCreds } from '../../utils/localStorage';
+import { login, getEmails } from '../../store/api/api';
+import EmailsList from './EmailsList/EmailsList';
+import { Box, Typography } from '@mui/material';
 
 export default function Email() {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,13 +13,24 @@ export default function Email() {
 
   useEffect(() => {
     dispatch(login(getCreds()));
+    dispatch(getEmails());
   }, [dispatch]);
 
   return (
     <div>
-      {user?.username}
-      {user?.email}
-      <EmailModal />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          margin: '20px 0',
+        }}
+      >
+        <Typography variant="h6">Username: {user?.username}</Typography>
+        <Typography variant="h6">Email: {user?.email}</Typography>
+        <EmailModal />
+      </Box>
+
+      <EmailsList />
     </div>
   );
 }

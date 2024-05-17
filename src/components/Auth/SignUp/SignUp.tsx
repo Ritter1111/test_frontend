@@ -15,8 +15,8 @@ import { validationSignIn } from '../../../utils/Validate_Schemas';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../../store/store';
 import { useDispatch } from 'react-redux';
-import { register } from '../../../store/slices/Auth.slice';
 import { setCreds } from '../../../utils/localStorage';
+import { register } from '../../../store/api/api';
 
 export default function SignUp() {
   const dispatch = useDispatch<AppDispatch>();
