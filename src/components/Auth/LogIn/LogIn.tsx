@@ -9,20 +9,28 @@ import {
 } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import styles from './LogIn.module.css';
-import { formFieldsDefault } from '../../../utils/const';
+import { EMAIL_ROUTE, formFieldsDefault } from '../../../utils/const';
 import { validationPasswordEmail } from '../../../utils/Validate_Schemas';
 import { ILoginData } from '../../../types/types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../store/slices/Auth.slice';
 import { AppDispatch } from '../../../store/store';
+import { setCreds } from '../../../utils/localStorage';
 
 export default function LogIn() {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleSubmit = (values: ILoginData) => {
-    console.log(values);
-    dispatch(login(values));
+    try {
+      dispatch(login(values));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setCreds(values);
+      navigate(EMAIL_ROUTE);
+    }
   };
 
   return (

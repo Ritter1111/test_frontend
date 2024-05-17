@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ILoginData, ISignupData } from '../../types/types';
+import {
+  IAuthData,
+  ICreateEmailData,
+  ILoginData,
+  ISignupData,
+} from '../../types/types';
+import { getCreds } from '../../utils/localStorage';
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -11,17 +17,8 @@ export const login = createAsyncThunk(
       },
     });
     const data = await response.json();
-    // dispatch(
-    //   loginSuccess({ username: data.username, password: data.password })
-    // );
-    localStorage.setItem(
-      'creds',
-      JSON.stringify({
-        username: data.username,
-        password: data.password,
-        id: data.id,
-      })
-    );
+
+    return data;
   }
 );
 
@@ -40,24 +37,55 @@ export const register = createAsyncThunk(
       }),
     });
     const data = await response.json();
-
-    localStorage.setItem(
-      'creds',
-      JSON.stringify({
-        username: data.username,
-        id: data.id,
-        email: data.email,
-      })
-    );
+    return data;
   }
 );
 
+export const createEmail = createAsyncThunk(
+  'email/create',
+  async ({ sender, recipient, subject, message }: ICreateEmailData) => {
+    const response = await fetch(`api/emails/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:
+          'Basic ' + btoa(`${getCreds().username}:${getCreds().password}`),
+      },
+      body: JSON.stringify({
+        sender,
+        recipient,
+        subject,
+        message,
+      }),
+    });
+    const data = await response.json();
+    return data;
+  }
+);
+
+interface AuthState {
+  user: IAuthData;
+}
+
+const initAuthData = {
+  username: '',
+  email: '',
+  id: 0,
+};
+
+const initialState: AuthState = {
+  user: initAuthData,
+};
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {},
+  initialState: initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+  },
 });
-
-// export const { loginSuccess, logout } = authSlice.actions;
 
 export const authReduces = authSlice.reducer;

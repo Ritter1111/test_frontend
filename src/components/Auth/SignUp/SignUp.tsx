@@ -9,20 +9,28 @@ import {
 } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import styles from './SignUp.module.css';
-import { formSignUpFieldsDefault } from '../../../utils/const';
+import { EMAIL_ROUTE, formSignUpFieldsDefault } from '../../../utils/const';
 import { ISignupData } from '../../../types/types';
 import { validationSignIn } from '../../../utils/Validate_Schemas';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../../store/store';
 import { useDispatch } from 'react-redux';
 import { register } from '../../../store/slices/Auth.slice';
+import { setCreds } from '../../../utils/localStorage';
 
 export default function SignUp() {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleSubmit = (values: ISignupData) => {
-    console.log(values);
-    dispatch(register(values));
+    try {
+      dispatch(register(values));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setCreds(values);
+      navigate(EMAIL_ROUTE);
+    }
   };
 
   return (
@@ -93,7 +101,6 @@ export default function SignUp() {
             </Form>
           )}
         </Formik>
-        {/* <ToastContainer /> */}
         <Grid container>
           <Grid item sx={{ mt: 2 }}>
             <Link to="/login" className={styles.link}>
