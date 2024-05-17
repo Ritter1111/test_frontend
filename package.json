@@ -16,7 +16,6 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
-    "@mui/x-data-grid": "^7.5.0",
     "@reduxjs/toolkit": "^2.2.5",
     "draft-js": "^0.11.7",
     "formik": "^2.4.6",

@@ -11,7 +11,6 @@ export function Router(): ReactElement {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* <Route index element={<Email />} /> */}
         <Route
           path="/register"
           element={
@@ -31,7 +30,7 @@ export function Router(): ReactElement {
         <Route
           path="/email"
           element={
-            <WithoutAuth redirectLink="/">
+            <WithoutAuth redirectLink="/login">
               <Email />
             </WithoutAuth>
           }

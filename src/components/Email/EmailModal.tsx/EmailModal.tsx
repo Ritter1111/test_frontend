@@ -2,17 +2,16 @@ import { Button, Modal, Box, Typography, TextField } from '@mui/material';
 import { useState } from 'react';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store/store';
 import { createEmail, getEmails } from '../../../store/api/api';
 import { modalStyle } from '../../../utils/const';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export default function EmailModal() {
   const [open, setOpen] = useState(false);
   const [recipient, setRecipient] = useState('');
   const [subject, setSubject] = useState('');
-
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -31,11 +30,13 @@ export default function EmailModal() {
     try {
       const message = editorState.getCurrentContent().getPlainText('\u0001');
       dispatch(createEmail({ sender: user.id, recipient, subject, message }));
-      dispatch(getEmails());
+      dispatch(getEmails('/'));
     } catch (error) {
       console.log(error);
     } finally {
       handleClose();
+      setRecipient('');
+      setSubject('');
     }
   };
 

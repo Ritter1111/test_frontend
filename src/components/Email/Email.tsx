@@ -6,15 +6,21 @@ import { getCreds } from '../../utils/localStorage';
 import { login, getEmails } from '../../store/api/api';
 import EmailsList from './EmailsList/EmailsList';
 import { Box, Typography } from '@mui/material';
+import Loader from '../Loader/Loader';
 
 export default function Email() {
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: RootState) => state.auth.user);
+  const { user, loading } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     dispatch(login(getCreds()));
-    dispatch(getEmails());
+    dispatch(getEmails('/'));
+    console.log(getCreds());
   }, [dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div>

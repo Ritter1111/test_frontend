@@ -58,21 +58,20 @@ export const createEmail = createAsyncThunk(
   }
 );
 
-export const getEmails = createAsyncThunk('email/get', async () => {
-  const response = await fetch(`api/emails/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization:
-        'Basic ' + btoa(`${getCreds().username}:${getCreds().password}`),
-    },
-    // body: JSON.stringify({
-    //   sender,
-    //   recipient,
-    //   subject,
-    //   message,
-    // }),
-  });
-  const data = await response.json();
-  return data;
-});
+export const getEmails = createAsyncThunk(
+  'email/get',
+  async (pagination?: string) => {
+    console.log(getCreds());
+    const response = await fetch(`api/emails` + pagination, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:
+          'Basic ' + btoa(`${getCreds().username}:${getCreds().password}`),
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  }
+);
